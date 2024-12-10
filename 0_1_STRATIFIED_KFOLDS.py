@@ -19,18 +19,19 @@ def main(csv_file, output_file):
 
     # Step 3: Initialize multiple classifiers
     classifiers = {
-        'RandomForest': RandomForestClassifier(),
-        'GradientBoosting': GradientBoostingClassifier(),
-        'LogisticRegression': LogisticRegression(max_iter=10),
-        'KNeighbors': KNeighborsClassifier(),
-        'SVM': SVC(),
-        'DecisionTree': DecisionTreeClassifier(),
-        'NaiveBayes': GaussianNB(),
-        'MLP': MLPClassifier(max_iter=10)
-    }
+        'MLR': LogisticRegression(random_state=42, max_iter=200, multi_class='multinomial'),  # MLR
+        'J48': DecisionTreeClassifier(random_state=42, criterion='entropy'),  # J48
+        'JRIP': DecisionTreeClassifier(random_state=42, max_depth=3),  # JRIP
+        'REPTree': DecisionTreeClassifier(random_state=42, max_depth=5, min_samples_split=10, min_samples_leaf=5),  # REPTree
+        'MLP': MLPClassifier(random_state=42, max_iter=1000),  # MLP
+        'SVM': SVC(random_state=42),  # SVM
+        'GNB': GaussianNB(),  # GNB
+        'IBk': KNeighborsClassifier(n_neighbors=3)  # IBk
+}
+
 
     # Step 4: Perform stratified k-fold cross-validation for each classifier
-    k = 2
+    k = 5
     skf = StratifiedKFold(n_splits=k, shuffle=True, random_state=42)
 
     results = {}
